@@ -16,8 +16,9 @@ COPY . .
 # Generate Panda CSS
 RUN pnpm run prepare
 
-# Set environment to production
+# Set environment variables
 ENV NODE_ENV=production
+ENV NEXT_PUBLIC_API_URL=http://backend:3001
 
 # Build the Next.js application
 RUN pnpm run build
