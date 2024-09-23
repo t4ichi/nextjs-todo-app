@@ -18,7 +18,7 @@ RUN pnpm run prepare
 
 # Set environment variables
 ENV NODE_ENV=production
-ENV NEXT_PUBLIC_API_URL=http://backend:3001
+ENV NEXT_PUBLIC_API_URL=http://localhost:3001
 
 # Build the Next.js application
 RUN pnpm run build
