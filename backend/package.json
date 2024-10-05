@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "npx prisma generate && node dist/app.js",
-    "dev": "nodemon src/app.ts",
+    "start": "node dist/app.js",
     "build": "tsc",
+    "dev": "nodemon src/app.ts",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
