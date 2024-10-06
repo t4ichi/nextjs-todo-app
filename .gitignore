@@ -49,8 +49,10 @@ prisma/*.db
 .dockerignore
 
 # MySQL
-# *.sql
+*.sql
 *.sqlite
+
+db/*.sql
 
 # Logs
 logs
