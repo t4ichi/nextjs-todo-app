@@ -1,6 +1,9 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { Button } from "@/components/base/atoms/Button";
+import React from "react";
+import { css } from "../../styled-system/css";
 
 interface Todo {
   id: number;
@@ -13,17 +16,22 @@ export default function Home() {
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/todos`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setTodos)
-      .catch(err => console.error('Failed to fetch todos:', err));
+      .catch((err) => console.error("Failed to fetch todos:", err));
   }, []);
-  console.log(`todos : ${todos}`);
+
+  console.log(`todos: ${JSON.stringify(todos)}`);
 
   return (
     <div>
       <h1>Todos</h1>
+      <Button />
+      <div className={css({ fontSize: "2xl", fontWeight: "bold" })}>
+        Hello 🐼!
+      </div>
       <ul>
-        {todos.map(todo => (
+        {todos.map((todo) => (
           <li key={todo.id}>{todo.title}</li>
         ))}
       </ul>
