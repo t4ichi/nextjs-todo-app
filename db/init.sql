@@ -1,0 +1,3 @@
+GRANT ALL PRIVILEGES ON todo_db.* TO 'todo_user'@'%';
+GRANT CREATE, ALTER, DROP, REFERENCES ON *.* TO 'todo_user'@'%';
+FLUSH PRIVILEGES;
