@@ -1,15 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/base/atoms/Button";
 import React from "react";
-import { css } from "../../styled-system/css";
+import { css } from "styled-system/css";
+import { Title } from "@/components/base/atoms/Title";
 
-interface Todo {
+type Todo = {
   id: number;
   title: string;
   completed: boolean;
-}
+};
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -24,17 +24,28 @@ export default function Home() {
   console.log(`todos: ${JSON.stringify(todos)}`);
 
   return (
-    <div>
-      <h1>Todos</h1>
-      <Button />
-      <div className={css({ fontSize: "2xl", fontWeight: "bold" })}>
-        Hello 🐼!
+    <div
+      className={css({
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      })}
+    >
+      <div className={css({ textAlign: "center" })}>
+        <Title>Todo</Title>
+        <ul>
+          {todos.map((todo) => (
+            <div
+              className={css({
+                display: "flex",
+              })}
+            >
+              <input type="checkbox" name="" id="" />
+              <li key={todo.id}>{todo.title}</li>
+            </div>
+          ))}
+        </ul>
       </div>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.title}</li>
-        ))}
-      </ul>
     </div>
   );
 }

@@ -1,11 +1,14 @@
 import React from "react";
-import { css } from "styled-system/css";
+import { Button as RadixButton, ButtonProps } from "@radix-ui/themes";
 
-export const Button = () => {
-  const buttonStyle = css({
-    backgroundColor: "blue.500",
-    color: "white",
-  });
-
-  return <button className={buttonStyle}>button</button>;
+export const Button = (props: ButtonProps) => {
+  const ButtonStyle = {
+    background: "blue",
+    rounded: "lg",
+  };
+  return (
+    <RadixButton {...props} className={props.className} style={ButtonStyle}>
+      {props.children || "button"}
+    </RadixButton>
+  );
 };

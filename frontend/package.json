@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@radix-ui/themes": "^3.1.4",
     "@styled-system/css": "^5.1.5",
     "next": "14.2.11",
     "react": "^18",
