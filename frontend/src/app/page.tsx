@@ -21,8 +21,6 @@ export default function Home() {
       .catch((err) => console.error("Failed to fetch todos:", err));
   }, []);
 
-  console.log(`todos: ${JSON.stringify(todos)}`);
-
   return (
     <div
       className={css({
@@ -36,12 +34,13 @@ export default function Home() {
         <ul>
           {todos.map((todo) => (
             <div
+              key={todo.id}
               className={css({
                 display: "flex",
               })}
             >
               <input type="checkbox" name="" id="" />
-              <li key={todo.id}>{todo.title}</li>
+              <li>{todo.title}</li>
             </div>
           ))}
         </ul>
