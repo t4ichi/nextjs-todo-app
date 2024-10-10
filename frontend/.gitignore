@@ -36,3 +36,5 @@ yarn-error.log*
 
 # Panda CSS
 /styled-system
+
+*storybook.log
