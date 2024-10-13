@@ -1,9 +1,10 @@
 "use client";
 
+import { Button } from "@/components/base/atoms/Button";
+import { Title } from "@/components/base/atoms/Title";
 import { useState, useEffect } from "react";
 import React from "react";
 import { css } from "styled-system/css";
-import { Title } from "@/components/base/atoms/Title";
 
 type Todo = {
   id: number;
@@ -41,6 +42,7 @@ export default function Home() {
             >
               <input type="checkbox" name="" id="" />
               <li>{todo.title}</li>
+              <Button>+</Button>
             </div>
           ))}
         </ul>
