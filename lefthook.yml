@@ -1,25 +1,3 @@
-# pre-commit:
-#   parallel: true
-#   commands:
-#     prettier:
-#       root: "frontend/src"
-#       glob: "*.{tsx,ts,mts,mcs,mjs,cjs,js,json,md,yml,yaml}"
-#       run: |
-#         npx prettier --write --ignore-unknown {staged_files}
-#       stage_fixed: true
-#       skip:
-#         - merge
-#         - rebase
-#     eslint-sample-package:
-#       root: "frontend/src"
-#       glob: "*.{tsx,ts,mts,mcs}"
-#       run: |
-#         pnpm --filter sample exec eslint --fix {staged_files}
-#       stage_fixed: true
-#       skip:
-#         - merge
-#         - rebase
-
 pre-commit:
   parallel: true
   commands:
