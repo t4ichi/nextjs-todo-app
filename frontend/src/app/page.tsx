@@ -1,28 +1,14 @@
-"use client";
-
 import { Title } from "@/components/base/atoms/Title";
 import { Todos } from "@/components/domain/todo/molecules/Todos";
-import { Todo } from "@/types/api";
-import { useState, useEffect } from "react";
-import React from "react";
 import { css } from "styled-system/css";
+import { getTodos } from "./api";
 
-const Home = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/todos`)
-      .then((res) => res.json())
-      .then((data) => setTodos(data))
-      .catch((err) => console.error("Failed to fetch todos:", err));
-  }, []);
-
+const Home = async () => {
+  const todos = await getTodos();
   return (
     <div
       className={css({
-        display: "flex",
         alignItems: "center",
-        justifyContent: "center",
       })}
     >
       <div className={css({ textAlign: "center" })}>
