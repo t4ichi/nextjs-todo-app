@@ -7,6 +7,7 @@ export default defineConfig({
   // Where to look for your css declarations
   include: [
     "./src/components/**/*.{ts,tsx,js,jsx}",
+    "./stories/**/*.{js,jsx,ts,tsx}",
     "./src/app/**/*.{ts,tsx,js,jsx}",
   ],
 
