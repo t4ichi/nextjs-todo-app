@@ -4,7 +4,9 @@ const theme = {
   tokens: {
     fonts: {
       body: {
-        value: {},
+        value: {
+          bold: { value: "700" },
+        },
       },
     },
     colors: {
