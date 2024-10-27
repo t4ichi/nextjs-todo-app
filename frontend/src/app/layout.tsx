@@ -1,7 +1,10 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { M_PLUS_1 } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const mplus = M_PLUS_1({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 export const metadata = {
   title: "Next.js Todo App",
@@ -14,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="ja">
+      <body className={mplus.className}>{children}</body>
     </html>
   );
 }
