@@ -9,6 +9,14 @@ const theme = {
         },
       },
     },
+    fontSizes: {
+      xs: { value: "0.667rem" },
+      sm: { value: "0.75rem" },
+      md: { value: "1rem" },
+      lg: { value: "1.25rem" },
+      xl: { value: "1.5rem" },
+      xxl: { value: "2rem" },
+    },
     colors: {
       base: {
         50: { value: "#F2F2F2" },
