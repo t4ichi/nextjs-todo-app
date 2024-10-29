@@ -1,23 +1,22 @@
 import { ReactNode } from "react";
 import { css } from "../../../../../styled-system/css";
 
-export interface IButtonProps {
+type ButtonProps = {
   children: ReactNode;
-}
+};
 
-export const Button = ({ children }: IButtonProps) => {
-  return (
-    <button
-      className={css({
-        bg: "red.300",
-        fontFamily: "Inter",
-        px: "4",
-        py: "3",
-        borderRadius: "md",
-        _hover: { bg: "red.400" },
-      })}
-    >
-      {children}
-    </button>
-  );
+const baseStyle = css({
+  width: "6rem",
+  height: "3rem",
+  backgroundColor: "primary.600",
+  color: "white",
+  rounded: "0.5rem",
+  _hover: {
+    backgroundColor: "primary.800",
+    color: "base.50",
+  },
+});
+
+export const Button = ({ children }: ButtonProps) => {
+  return <button className={`${baseStyle}`}>{children}</button>;
 };
