@@ -29,6 +29,7 @@ const theme = {
       primary: {
         50: { value: "#F0F9FF" },
         400: { value: "#57B8FF" },
+        600: { value: "#008BF2" },
         800: { value: "#0066BE" },
       },
       succcess: {
