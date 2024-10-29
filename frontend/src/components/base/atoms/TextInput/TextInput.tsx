@@ -24,7 +24,7 @@ export const TextInput = ({
       height: "3rem",
     }),
     md: css({
-      width: "30rem",
+      width: "24rem",
       height: "3rem",
     }),
     lg: css({
