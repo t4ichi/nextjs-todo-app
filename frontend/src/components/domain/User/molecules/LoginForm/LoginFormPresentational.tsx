@@ -30,7 +30,7 @@ const styles = {
   logo: css({
     display: "flex",
     justifyContent: "center",
-    marginTop: "1rem",
+    marginTop: "4rem",
     fontWeight: "bold",
     fontSize: "1.5rem",
   }),
