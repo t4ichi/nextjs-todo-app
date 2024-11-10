@@ -31,6 +31,8 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     marginTop: "1rem",
+    fontWeight: "bold",
+    fontSize: "1.5rem",
   }),
 };
 
@@ -41,7 +43,7 @@ export const LoginFormPresentational = ({
   isLoading = false,
 }: LoginFormPresentationalProps) => (
   <div className={styles.container}>
-    <div className={styles.logo}>{/* ロゴコンポーネント */}</div>
+    <div className={styles.logo}>ログイン</div>
     <form onSubmit={onSubmit} className={styles.formContainer}>
       <TextInput
         {...register("email")}
