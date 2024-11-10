@@ -1,8 +1,7 @@
-import { ReactNode } from "react";
-import { css } from "../../../../../styled-system/css";
+import { css } from "@/styled-system/css";
 
-type ButtonProps = {
-  children: ReactNode;
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  children: React.ReactNode;
 };
 
 const baseStyle = css({
@@ -17,6 +16,10 @@ const baseStyle = css({
   },
 });
 
-export const Button = ({ children }: ButtonProps) => {
-  return <button className={`${baseStyle}`}>{children}</button>;
+export const Button = ({ children, className, ...props }: ButtonProps) => {
+  return (
+    <button className={`${baseStyle} ${className ?? ""}`} {...props}>
+      {children}
+    </button>
+  );
 };
