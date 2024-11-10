@@ -22,6 +22,21 @@ const Home = async () => {
   const todos = await getTodos();
   return (
     <div>
+      <div
+        className={css({
+          width: "100%",
+        })}
+      >
+        <a
+          className={css({
+            display: "flex",
+            justifyContent: "end",
+          })}
+          href="/login"
+        >
+          ログイン
+        </a>
+      </div>
       <div className={logoStyle}>
         <Image src={todoLogo} alt="logo" />
       </div>
