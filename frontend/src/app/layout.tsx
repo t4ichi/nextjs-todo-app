@@ -16,9 +16,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  if (process.env.NEXT_RUNTIME === "nodejs") {
-    const { initMocks } = await import("../lib/msw");
-    initMocks();
+  if (process.env.NODE_ENV === "development") {
+    require("../mocks");
   }
   return (
     <html lang="ja">
