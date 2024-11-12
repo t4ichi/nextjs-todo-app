@@ -11,11 +11,14 @@ export const metadata = {
   description: "A Todo app built with Next.js and TypeScript",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  if (process.env.NODE_ENV === "development") {
+    require("../mocks");
+  }
   return (
     <html lang="ja">
       <body className={mplus.className}>{children}</body>
