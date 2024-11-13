@@ -1,32 +1,13 @@
 import { http, HttpResponse } from "msw";
 
 export const handlers = [
-  http.post("https://example.com/auth/login", async () => {
+  // Intercept "GET https://example.com/user" requests...
+  http.get("https://example.com/user", () => {
+    // ...and respond to them using this JSON response.
     return HttpResponse.json({
-      token: "mock-jwt-token",
-      user: {
-        id: 1,
-        email: "user@example.com",
-        name: "Test User",
-      },
-    });
-  }),
-
-  // EXAMPLE
-  // const response = await fetch("https://example.com/auth/login", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     email: "user@example.com",
-  //     password: "password",
-  //   }),
-  // });
-
-  http.get("https://example.com/hello", () => {
-    return HttpResponse.json({
-      message: "Hello World",
+      id: "c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3d3b3d",
+      firstName: "John",
+      lastName: "Maverick",
     });
   }),
 ];

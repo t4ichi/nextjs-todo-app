@@ -6,6 +6,7 @@ import Image from "next/image";
 import { TextInput } from "@/components/base/atoms/TextInput";
 import { Button } from "@/components/base/atoms/Button";
 import { Divider } from "@/components/base/atoms/Divider";
+import { server } from "../mocks/node";
 
 const logoStyle = css({
   display: "flex",
@@ -19,7 +20,13 @@ const todosStyle = css({
 });
 
 const Home = async () => {
+  server.listen();
   const todos = await getTodos();
+
+  const response = await fetch("https://example.com/user");
+  const user = await response.json();
+  console.log(user);
+
   return (
     <div>
       <div
