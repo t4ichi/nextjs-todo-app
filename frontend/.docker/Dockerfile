@@ -16,5 +16,10 @@ COPY . .
 # Generate Panda CSS
 RUN pnpm run prepare
 
+RUN pnpm dlx msw init public/ --save
+
+RUN pnpm run postinstall
+
+
 CMD ["pnpm", "run", "dev"]
 

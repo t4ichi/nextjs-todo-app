@@ -23,10 +23,6 @@ const Home = async () => {
   server.listen();
   const todos = await getTodos();
 
-  const response = await fetch("https://example.com/user");
-  const user = await response.json();
-  console.log(user);
-
   return (
     <div>
       <div
