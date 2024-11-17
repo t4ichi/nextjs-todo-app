@@ -7,7 +7,9 @@ export const getAllTodos = async (req: Request, res: Response) => {
   try {
     const todos = await prisma.todo.findMany();
     res.json(todos);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch todos" });
+  }
 };
 
 export const createTodo = async (req: Request, res: Response) => {
@@ -23,7 +25,9 @@ export const createTodo = async (req: Request, res: Response) => {
       },
     });
     res.status(201).json(newTodo);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create todo" });
+  }
 };
 
 export const editTodo = async (req: Request, res: Response) => {
@@ -40,11 +44,13 @@ export const editTodo = async (req: Request, res: Response) => {
     const updatedTodo = await prisma.todo.update({
       where: { id: Number(id) },
       data: {
-        title,
-        completed,
+        ...(title && { title }),
+        ...(completed !== undefined && { completed }),
       },
     });
 
     res.json(updatedTodo);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update todo" });
+  }
 };
