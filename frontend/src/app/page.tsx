@@ -6,7 +6,6 @@ import Image from "next/image";
 import { TextInput } from "@/components/base/atoms/TextInput";
 import { Button } from "@/components/base/atoms/Button";
 import { Divider } from "@/components/base/atoms/Divider";
-import { server } from "../mocks/node";
 
 const logoStyle = css({
   display: "flex",
@@ -20,7 +19,6 @@ const todosStyle = css({
 });
 
 const Home = async () => {
-  server.listen();
   const todos = await getTodos();
 
   return (
@@ -29,17 +27,7 @@ const Home = async () => {
         className={css({
           width: "100%",
         })}
-      >
-        <a
-          className={css({
-            display: "flex",
-            justifyContent: "end",
-          })}
-          href="/login"
-        >
-          ログイン
-        </a>
-      </div>
+      ></div>
       <div className={logoStyle}>
         <Image src={todoLogo} alt="logo" />
       </div>
