@@ -9,6 +9,7 @@ vi.mock("@prisma/client", () => {
       findMany: vi.fn(),
       create: vi.fn(),
       update: vi.fn(),
+      findUnique: vi.fn(),
     },
   };
   return { PrismaClient: vi.fn(() => mockPrisma) };
@@ -155,6 +156,78 @@ describe("TODOのAPIテスト", () => {
 
       expect(response.status).toBe(500);
       expect(response.body).toEqual({ error: "Failed to update todo" });
+    });
+  });
+
+  describe("PUT /api/todos/delete/:id", () => {
+    it("TODOを論理削除できること", async () => {
+      const targetTodo = {
+        id: 1,
+        title: "テストTODO",
+        completed: false,
+        deletedAt: null,
+      };
+
+      // @ts-ignore
+      prisma.todo.findUnique.mockResolvedValue(targetTodo);
+
+      // @ts-ignore
+      prisma.todo.update.mockResolvedValue({
+        ...targetTodo,
+        deletedAt: new Date(),
+      });
+
+      const response = await request(app).put("/api/todos/delete/1");
+
+      expect(response.status).toBe(204);
+      // @ts-ignore
+      expect(prisma.todo.findUnique).toHaveBeenCalledWith({
+        where: { id: 1 },
+      });
+      // @ts-ignore
+      expect(prisma.todo.update).toHaveBeenCalledWith({
+        where: { id: 1 },
+        data: {
+          deletedAt: expect.any(Date),
+        },
+      });
+    });
+
+    it("存在しないTODOの削除を試みた場合、404エラーを返すこと", async () => {
+      // @ts-ignore
+      prisma.todo.findUnique.mockResolvedValue(null);
+
+      const response = await request(app).put("/api/todos/delete/999");
+
+      expect(response.status).toBe(404);
+      expect(response.body).toEqual({ error: "Todo not found" });
+    });
+
+    it("既に削除済みのTODOを削除しようとした場合、400エラーを返すこと", async () => {
+      const deletedTodo = {
+        id: 1,
+        title: "テストTODO",
+        completed: false,
+        deletedAt: new Date(),
+      };
+
+      // @ts-ignore
+      prisma.todo.findUnique.mockResolvedValue(deletedTodo);
+
+      const response = await request(app).put("/api/todos/delete/1");
+
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: "Todo is already deleted" });
+    });
+
+    it("データベースエラーが発生した場合、500エラーを返すこと", async () => {
+      // @ts-ignore
+      prisma.todo.findUnique.mockRejectedValue(new Error("データベースエラー"));
+
+      const response = await request(app).put("/api/todos/delete/1");
+
+      expect(response.status).toBe(500);
+      expect(response.body).toEqual({ error: "Failed to delete todo" });
     });
   });
 });
