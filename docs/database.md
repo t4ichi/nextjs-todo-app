@@ -1,7 +1,9 @@
-### マイグレーション 
+### マイグレーション
+
 ```
 docker-compose exec db mysql -u root -p
 ```
+
 > rootpassword
 
 ```
@@ -24,18 +26,16 @@ npx prisma migrate dev --name init
 docker-compose restart backend
 ```
 
-```
-docker-compose exec backend sh
-npx prisma migrate dev --name init
-````
 ### curl で検証
+
 ```
 curl http://localhost:3001/api/todos
 ```
+
 > []
 
 ```
 curl -X POST -H "Content-Type: application/json" -d '{"title":"新しいTodo"}' http://localhost:3001/api/todos
 ```
-> [{"id":1,"title":"新しいTodo","completed":false,"createdAt":"2024-09-23T06:07:27.227Z","updatedAt":"2024-09-23T06:07:27.227Z"}]%
 
+> [{"id":1,"title":"新しい Todo","completed":false,"createdAt":"2024-09-23T06:07:27.227Z","updatedAt":"2024-09-23T06:07:27.227Z"}]%
