@@ -5,7 +5,9 @@ const prisma = new PrismaClient();
 
 export const getAllTodos = async (req: Request, res: Response) => {
   try {
-    const todos = await prisma.todo.findMany();
+    const todos = await prisma.todo.findMany({
+      where: { deletedAt: null },
+    });
     res.json(todos);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch todos" });

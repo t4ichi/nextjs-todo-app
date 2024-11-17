@@ -32,10 +32,10 @@ describe("TODOのAPIテスト", () => {
   });
 
   describe("GET /api/todos", () => {
-    it("全てのTODOを取得できること", async () => {
+    it("削除されていない全てのTODOを取得できること", async () => {
       const mockTodos = [
-        { id: 1, title: "テストTODO 1", completed: false },
-        { id: 2, title: "テストTODO 2", completed: true },
+        { id: 1, title: "テストTODO 1", completed: false, deletedAt: null },
+        { id: 2, title: "テストTODO 2", completed: true, deletedAt: null },
       ];
 
       // @ts-ignore
@@ -46,7 +46,9 @@ describe("TODOのAPIテスト", () => {
       expect(response.status).toBe(200);
       expect(response.body).toEqual(mockTodos);
       // @ts-ignore
-      expect(prisma.todo.findMany).toHaveBeenCalled();
+      expect(prisma.todo.findMany).toHaveBeenCalledWith({
+        where: { deletedAt: null },
+      });
     });
 
     it("データベースエラーが発生した場合、500エラーを返すこと", async () => {
