@@ -54,3 +54,31 @@ export const editTodo = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to update todo" });
   }
 };
+
+export const deleteTodo = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const todo = await prisma.todo.findUnique({
+      where: { id: Number(id) },
+    });
+
+    if (!todo) {
+      return res.status(404).json({ error: "Todo not found" });
+    }
+
+    if (todo.deletedAt) {
+      return res.status(400).json({ error: "Todo is already deleted" });
+    }
+
+    await prisma.todo.update({
+      where: { id: Number(id) },
+      data: {
+        deletedAt: new Date(),
+      },
+    });
+
+    return res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete todo" });
+  }
+};
