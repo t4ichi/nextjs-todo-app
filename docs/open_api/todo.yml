@@ -1,0 +1,158 @@
+openapi: 3.0.0
+info:
+  title: Todo API
+  version: 1.0.0
+  description: Todo アプリケーションのAPI仕様
+paths:
+  /api/todos:
+    get:
+      summary: Todo一覧の取得
+      description: 論理削除されていない全てのTodoアイテムを取得します
+      operationId: getAllTodos
+      responses:
+        "200":
+          description: Todoリストの取得に成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Todo"
+        "500":
+          description: サーバーエラー
+
+    post:
+      summary: 新規Todoの作成
+      description: 新しいTodoアイテムを作成します
+      operationId: createTodo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                  description: Todoのタイトル
+                  example: "買い物に行く"
+      responses:
+        "201":
+          description: Todoの作成に成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "400":
+          description: 不正なリクエスト
+        "500":
+          description: サーバーエラー
+
+  /api/todos/{id}:
+    put:
+      summary: Todoの更新
+      description: 指定されたIDのTodoを更新します
+      operationId: editTodo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: TodoのID
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: 更新するTodoのタイトル
+                  example: "修正後のTodoタイトル"
+                completed:
+                  type: boolean
+                  description: 完了状態
+                  example: true
+      responses:
+        "200":
+          description: Todoの更新に成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "404":
+          description: 指定されたTodoが見つかりません
+        "500":
+          description: サーバーエラー
+
+  /api/todos/delete/{id}:
+    put:
+      summary: Todoの削除
+      description: 指定されたIDのTodoを論理削除します
+      operationId: deleteTodo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: TodoのID
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Todoの削除に成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "404":
+          description: 指定されたTodoが見つかりません
+        "500":
+          description: サーバーエラー
+
+components:
+  schemas:
+    Todo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: TodoのユニークID（自動採番）
+          example: 1
+        title:
+          type: string
+          description: Todoのタイトル
+          example: "買い物に行く"
+        completed:
+          type: boolean
+          default: false
+          description: Todoの完了状態
+          example: false
+        createdAt:
+          type: string
+          format: date-time
+          description: 作成日時
+          example: "2024-03-17T09:00:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          description: 更新日時
+          example: "2024-03-17T09:00:00Z"
+        deletedAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: 論理削除日時（nullの場合は未削除）
+          example: null
+      required:
+        - id
+        - title
+        - completed
+        - createdAt
+        - updatedAt
