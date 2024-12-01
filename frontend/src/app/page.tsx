@@ -1,4 +1,3 @@
-import { Todos } from "@/components/domain/todo/molecules/Todos";
 import { css } from "styled-system/css";
 import todoLogo from "@/public/images/logo/todo.svg";
 import Image from "next/image";
@@ -6,6 +5,7 @@ import { TextInput } from "@/components/base/atoms/TextInput";
 import { Button } from "@/components/base/atoms/Button";
 import { Divider } from "@/components/base/atoms/Divider";
 import { getAllTodos } from "./api/fetchTodos";
+import { TodoList } from "@/components/domain/Todo/molecules/TodoList";
 
 const rootStyle = css({
 	margin: "0 auto",
@@ -52,7 +52,7 @@ const Home = async () => {
 					<Divider />
 				</div>
 				<div className={todosStyle}>
-					<Todos todos={todos} />
+					<TodoList todos={todos} />
 				</div>
 			</div>
 		</div>
