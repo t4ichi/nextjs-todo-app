@@ -1,15 +1,15 @@
 pre-commit:
   parallel: true
   commands:
-    prettier:
+    biome:
       root: "frontend/src"
       glob: "*.{js,ts,jsx,tsx}"
       run: |
-        npx prettier --write {staged_files}
+        npx biome format --write {staged_files}
       stage_fixed: true
-    eslint:
+    biome-lint:
       root: "frontend/src"
       glob: "*.{js,ts,jsx,tsx}"
       run: |
-        npx eslint --fix {staged_files}
+        npx biome lint --fix {staged_files}
       stage_fixed: true
