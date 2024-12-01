@@ -1,11 +1,10 @@
 import { css } from "styled-system/css";
 import todoLogo from "@/public/images/logo/todo.svg";
 import Image from "next/image";
-import { TextInput } from "@/components/base/atoms/TextInput";
-import { Button } from "@/components/base/atoms/Button";
 import { Divider } from "@/components/base/atoms/Divider";
 import { getAllTodos } from "./api/fetchTodos";
 import { TodoList } from "@/components/domain/Todo/molecules/TodoList";
+import { TodoCreateForm } from "@/components/domain/Todo/molecules/TodoCreateForm";
 
 const rootStyle = css({
 	margin: "0 auto",
@@ -28,13 +27,6 @@ const dividerStyle = css({
 	margin: "0 auto",
 });
 
-const createFormStyle = css({
-	display: "flex",
-	justifyContent: "center",
-	gap: "0.5rem",
-	marginTop: "1em",
-});
-
 const Home = async () => {
 	const todos = await getAllTodos();
 
@@ -44,10 +36,7 @@ const Home = async () => {
 				<Image className={logoStyle} src={todoLogo} alt="logo" />
 			</div>
 			<div>
-				<div className={createFormStyle}>
-					<TextInput placeholder="タスクを入力" />
-					<Button type="submit">追加</Button>
-				</div>
+				<TodoCreateForm />
 				<div className={dividerStyle}>
 					<Divider />
 				</div>
