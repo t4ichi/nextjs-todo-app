@@ -7,6 +7,10 @@ import { Button } from "@/components/base/atoms/Button";
 import { Divider } from "@/components/base/atoms/Divider";
 import { getAllTodos } from "./api/fetchTodos";
 
+const rootStyle = css({
+	margin: "0 auto",
+});
+
 const logoStyle = css({
 	display: "flex",
 	justifyContent: "center",
@@ -18,42 +22,38 @@ const todosStyle = css({
 	justifyContent: "center",
 });
 
+const dividerStyle = css({
+	width: "80%",
+	marginTop: "2rem",
+	margin: "0 auto",
+});
+
+const createFormStyle = css({
+	display: "flex",
+	justifyContent: "center",
+	gap: "0.5rem",
+	marginTop: "1em",
+});
+
 const Home = async () => {
 	const todos = await getAllTodos();
 
 	return (
-		<div>
+		<div className={rootStyle}>
 			<div className={logoStyle}>
-				<Image src={todoLogo} alt="logo" />
+				<Image className={logoStyle} src={todoLogo} alt="logo" />
 			</div>
-			<div
-				className={css({
-					textAlign: "center",
-				})}
-			>
-				<div className={todosStyle}>
-					<div
-						className={css({
-							display: "flex",
-							gap: "0.5rem",
-							marginTop: "1em",
-						})}
-					>
-						<TextInput placeholder="タスクを入力" />
-						<Button>追加</Button>
-					</div>
+			<div>
+				<div className={createFormStyle}>
+					<TextInput placeholder="タスクを入力" />
+					<Button type="submit">追加</Button>
 				</div>
-
-				<div
-					className={css({
-						width: "80%",
-						marginTop: "2rem",
-						margin: "0 auto",
-					})}
-				>
+				<div className={dividerStyle}>
 					<Divider />
 				</div>
-				<Todos todos={todos} />
+				<div className={todosStyle}>
+					<Todos todos={todos} />
+				</div>
 			</div>
 		</div>
 	);
