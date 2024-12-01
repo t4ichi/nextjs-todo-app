@@ -1,11 +1,11 @@
 import { Todos } from "@/components/domain/todo/molecules/Todos";
 import { css } from "styled-system/css";
-import { getTodos } from "./api";
 import todoLogo from "@/public/images/logo/todo.svg";
 import Image from "next/image";
 import { TextInput } from "@/components/base/atoms/TextInput";
 import { Button } from "@/components/base/atoms/Button";
 import { Divider } from "@/components/base/atoms/Divider";
+import { getAllTodos } from "./api/fetchTodos";
 
 const logoStyle = css({
 	display: "flex",
@@ -19,7 +19,7 @@ const todosStyle = css({
 });
 
 const Home = async () => {
-	const todos = await getTodos();
+	const todos = await getAllTodos();
 
 	return (
 		<div>
