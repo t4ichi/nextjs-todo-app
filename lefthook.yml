@@ -13,3 +13,8 @@ pre-commit:
       run: |
         npx biome lint --fix {staged_files}
       stage_fixed: true
+    markup-lint:
+      root: "frontend/src"
+      glob: "*.{tsx}"
+      run: |
+        pnpm run markup:lint {staged_files}
