@@ -35,6 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 
 # Panda CSS
-/styled-system
+styled-system/
 
 *storybook.log
