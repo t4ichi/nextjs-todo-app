@@ -7,45 +7,45 @@ import { TodoList } from "@/components/domain/Todo/molecules/TodoList";
 import { TodoCreateForm } from "@/components/domain/Todo/molecules/TodoCreateForm";
 
 const rootStyle = css({
-	margin: "0 auto",
+  margin: "0 auto",
 });
 
 const logoStyle = css({
-	display: "flex",
-	justifyContent: "center",
-	marginTop: "1rem",
+  display: "flex",
+  justifyContent: "center",
+  marginTop: "1rem",
 });
 
 const todosStyle = css({
-	display: "flex",
-	justifyContent: "center",
+  display: "flex",
+  justifyContent: "center",
 });
 
 const dividerStyle = css({
-	width: "80%",
-	marginTop: "2rem",
-	margin: "0 auto",
+  width: "80%",
+  marginTop: "2rem",
+  margin: "0 auto",
 });
 
 const Home = async () => {
-	const todos = await getAllTodos();
+  const todos = await getAllTodos();
 
-	return (
-		<div className={rootStyle}>
-			<div className={logoStyle}>
-				<Image className={logoStyle} src={todoLogo} alt="logo" />
-			</div>
-			<div>
-				<TodoCreateForm />
-				<div className={dividerStyle}>
-					<Divider />
-				</div>
-				<div className={todosStyle}>
-					<TodoList todos={todos} />
-				</div>
-			</div>
-		</div>
-	);
+  return (
+    <div className={rootStyle}>
+      <div className={logoStyle}>
+        <Image className={logoStyle} src={todoLogo} alt="logo" />
+      </div>
+      <div>
+        <TodoCreateForm />
+        <div className={dividerStyle}>
+          <Divider />
+        </div>
+        <div className={todosStyle}>
+          <TodoList todos={todos} />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Home;

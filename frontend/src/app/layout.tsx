@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./globals.css";
 import { M_PLUS_1 } from "next/font/google";
 

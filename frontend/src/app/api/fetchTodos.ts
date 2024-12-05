@@ -5,56 +5,190 @@
  * Todo アプリケーションのAPI仕様
  * OpenAPI spec version: 1.0.0
  */
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type {
+  MutationFunction,
+  QueryFunction,
+  QueryKey,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
 import { customFetch } from "../../lib/customFetch";
 export type EditTodoBody = {
-	/** 完了状態 */
-	completed?: boolean;
-	/** 更新するTodoのタイトル */
-	title?: string;
+  /** 完了状態 */
+  completed?: boolean;
+  /** 更新するTodoのタイトル */
+  title?: string;
 };
 
 export type CreateTodoBody = {
-	/** Todoのタイトル */
-	title: string;
+  /** Todoのタイトル */
+  title: string;
 };
 
 export interface Todo {
-	/** Todoの完了状態 */
-	completed: boolean;
-	/** 作成日時 */
-	createdAt: string;
-	/**
-	 * 論理削除日時（nullの場合は未削除）
-	 * @nullable
-	 */
-	deletedAt?: string | null;
-	/** TodoのユニークID（自動採番） */
-	id: number;
-	/** Todoのタイトル */
-	title: string;
-	/** 更新日時 */
-	updatedAt: string;
+  /** Todoの完了状態 */
+  completed: boolean;
+  /** 作成日時 */
+  createdAt: string;
+  /**
+   * 論理削除日時（nullの場合は未削除）
+   * @nullable
+   */
+  deletedAt?: string | null;
+  /** TodoのユニークID（自動採番） */
+  id: number;
+  /** Todoのタイトル */
+  title: string;
+  /** 更新日時 */
+  updatedAt: string;
 }
+
+type AwaitedInput<T> = PromiseLike<T> | T;
+
+type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
 /**
  * 論理削除されていない全てのTodoアイテムを取得します
  * @summary Todo一覧の取得
  */
-export const getAllTodos = () => {
-	return customFetch<Todo[]>({ url: `/api/todos`, method: "GET" });
+export const getAllTodos = (signal?: AbortSignal) => {
+  return customFetch<Todo[]>({ url: `/api/todos`, method: "GET", signal });
 };
+
+export const getGetAllTodosQueryKey = () => {
+  return [`/api/todos`] as const;
+};
+
+export const getGetAllTodosQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAllTodos>>,
+  TError = void,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getAllTodos>>,
+    TError,
+    TData
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetAllTodosQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllTodos>>> = ({
+    signal,
+  }) => getAllTodos(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAllTodos>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetAllTodosQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllTodos>>
+>;
+export type GetAllTodosQueryError = void;
+
+/**
+ * @summary Todo一覧の取得
+ */
+
+export function useGetAllTodos<
+  TData = Awaited<ReturnType<typeof getAllTodos>>,
+  TError = void,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getAllTodos>>,
+    TError,
+    TData
+  >;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetAllTodosQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
 
 /**
  * 新しいTodoアイテムを作成します
  * @summary 新規Todoの作成
  */
-export const createTodo = (createTodoBody: CreateTodoBody) => {
-	return customFetch<Todo>({
-		url: `/api/todos`,
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		data: createTodoBody,
-	});
+export const createTodo = (
+  createTodoBody: CreateTodoBody,
+  signal?: AbortSignal,
+) => {
+  return customFetch<Todo>({
+    url: `/api/todos`,
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    data: createTodoBody,
+    signal,
+  });
+};
+
+export const getCreateTodoMutationOptions = <
+  TError = void,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createTodo>>,
+    TError,
+    { data: CreateTodoBody },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createTodo>>,
+  TError,
+  { data: CreateTodoBody },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createTodo>>,
+    { data: CreateTodoBody }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return createTodo(data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateTodoMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createTodo>>
+>;
+export type CreateTodoMutationBody = CreateTodoBody;
+export type CreateTodoMutationError = void;
+
+/**
+ * @summary 新規Todoの作成
+ */
+export const useCreateTodo = <TError = void, TContext = unknown>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createTodo>>,
+    TError,
+    { data: CreateTodoBody },
+    TContext
+  >;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof createTodo>>,
+  TError,
+  { data: CreateTodoBody },
+  TContext
+> => {
+  const mutationOptions = getCreateTodoMutationOptions(options);
+
+  return useMutation(mutationOptions);
 };
 
 /**
@@ -62,12 +196,69 @@ export const createTodo = (createTodoBody: CreateTodoBody) => {
  * @summary Todoの更新
  */
 export const editTodo = (id: number, editTodoBody: EditTodoBody) => {
-	return customFetch<Todo>({
-		url: `/api/todos/${id}`,
-		method: "PUT",
-		headers: { "Content-Type": "application/json" },
-		data: editTodoBody,
-	});
+  return customFetch<Todo>({
+    url: `/api/todos/${id}`,
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    data: editTodoBody,
+  });
+};
+
+export const getEditTodoMutationOptions = <
+  TError = void,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof editTodo>>,
+    TError,
+    { id: number; data: EditTodoBody },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof editTodo>>,
+  TError,
+  { id: number; data: EditTodoBody },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof editTodo>>,
+    { id: number; data: EditTodoBody }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return editTodo(id, data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type EditTodoMutationResult = NonNullable<
+  Awaited<ReturnType<typeof editTodo>>
+>;
+export type EditTodoMutationBody = EditTodoBody;
+export type EditTodoMutationError = void;
+
+/**
+ * @summary Todoの更新
+ */
+export const useEditTodo = <TError = void, TContext = unknown>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof editTodo>>,
+    TError,
+    { id: number; data: EditTodoBody },
+    TContext
+  >;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof editTodo>>,
+  TError,
+  { id: number; data: EditTodoBody },
+  TContext
+> => {
+  const mutationOptions = getEditTodoMutationOptions(options);
+
+  return useMutation(mutationOptions);
 };
 
 /**
@@ -75,20 +266,62 @@ export const editTodo = (id: number, editTodoBody: EditTodoBody) => {
  * @summary Todoの削除
  */
 export const deleteTodo = (id: number) => {
-	return customFetch<Todo>({ url: `/api/todos/delete/${id}`, method: "PUT" });
+  return customFetch<Todo>({ url: `/api/todos/delete/${id}`, method: "PUT" });
 };
 
-type AwaitedInput<T> = PromiseLike<T> | T;
+export const getDeleteTodoMutationOptions = <
+  TError = void,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteTodo>>,
+    TError,
+    { id: number },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteTodo>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
 
-type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteTodo>>,
+    { id: number }
+  > = (props) => {
+    const { id } = props ?? {};
 
-export type GetAllTodosResult = NonNullable<
-	Awaited<ReturnType<typeof getAllTodos>>
+    return deleteTodo(id);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type DeleteTodoMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteTodo>>
 >;
-export type CreateTodoResult = NonNullable<
-	Awaited<ReturnType<typeof createTodo>>
->;
-export type EditTodoResult = NonNullable<Awaited<ReturnType<typeof editTodo>>>;
-export type DeleteTodoResult = NonNullable<
-	Awaited<ReturnType<typeof deleteTodo>>
->;
+
+export type DeleteTodoMutationError = void;
+
+/**
+ * @summary Todoの削除
+ */
+export const useDeleteTodo = <TError = void, TContext = unknown>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteTodo>>,
+    TError,
+    { id: number },
+    TContext
+  >;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof deleteTodo>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  const mutationOptions = getDeleteTodoMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
