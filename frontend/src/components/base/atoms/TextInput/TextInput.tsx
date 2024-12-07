@@ -1,4 +1,4 @@
-import { css } from "@/styled-system/css";
+import { css } from "styled-system/css";
 import { forwardRef } from "react";
 
 export type TextInputProps = React.InputHTMLAttributes<HTMLInputElement> & {

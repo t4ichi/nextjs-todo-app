@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { css } from "../../styled-system/css";
 
-import { Button } from "../components/base/atoms/Button/Button";
+import { css } from "styled-system/css";
+import { Button } from "./Button";
 
 const meta = {
-  title: "Example/Button",
+  title: "Components/Base/Atoms/Button",
   component: Button,
   tags: ["autodocs"],
   decorators: [
