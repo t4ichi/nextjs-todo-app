@@ -1,6 +1,6 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./globals.css";
 import { M_PLUS_1 } from "next/font/google";
+import { Providers } from "./providers/Providers";
 
 const mplus = M_PLUS_1({
   subsets: ["latin"],
@@ -12,14 +12,16 @@ export const metadata = {
   description: "A Todo app built with Next.js and TypeScript",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <html lang="ja">
-      <body className={mplus.className}>{children}</body>
+      <body className={mplus.className}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

@@ -1,8 +1,10 @@
 import express from "express";
+import cors from "cors";
 import { todoRoutes } from "./routes/todoRoutes";
 
 const app = express();
 
+app.use(cors());
 // Middleware
 app.use(express.json());
 

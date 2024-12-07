@@ -2,7 +2,6 @@ import { css } from "styled-system/css";
 import todoLogo from "@/public/images/logo/todo.svg";
 import Image from "next/image";
 import { Divider } from "@/components/base/atoms/Divider";
-import { getAllTodos } from "./api/fetchTodos";
 import { TodoList } from "@/components/domain/Todo/molecules/TodoList";
 import { TodoCreateForm } from "@/components/domain/Todo/molecules/TodoCreateForm";
 
@@ -27,9 +26,7 @@ const dividerStyle = css({
   margin: "0 auto",
 });
 
-const Home = async () => {
-  const todos = await getAllTodos();
-
+const Home = () => {
   return (
     <div className={rootStyle}>
       <div className={logoStyle}>
@@ -41,7 +38,7 @@ const Home = async () => {
           <Divider />
         </div>
         <div className={todosStyle}>
-          <TodoList todos={todos} />
+          <TodoList />
         </div>
       </div>
     </div>

@@ -20,7 +20,8 @@ export const customFetch = async <T>({
       ? `?${new URLSearchParams(params).toString()}`
       : "";
 
-    const baseUrl = process.env.BACKEND_URL || "http://backend:3001";
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
     const fullUrl = `${baseUrl}${url}${queryParams}`;
 
     const response = await fetch(fullUrl, {

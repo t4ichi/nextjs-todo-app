@@ -1,17 +1,18 @@
-import { Todo } from "@/types/api";
+"use client";
+import { getAllTodos, type Todo } from "@/app/api/fetchTodos";
+import { useQuery } from "@tanstack/react-query";
 
-type TodoProps = {
-	todos: Todo[];
-};
+export const TodoList = () => {
+  const query = useQuery({ queryKey: ["todos"], queryFn: () => getAllTodos() });
+  console.log(query.data);
 
-export const TodoList = ({ todos }: TodoProps) => {
-	return (
-		<div>
-			{todos.map((todo: Todo) => (
-				<div key={todo.id}>
-					{todo.title} : {todo.completed ? "✔️" : "□"}
-				</div>
-			))}
-		</div>
-	);
+  return (
+    <div>
+      {query.data?.map((todo: Todo) => (
+        <div key={todo.id}>
+          {todo.title} : {todo.completed ? "✔️" : "□"}
+        </div>
+      ))}
+    </div>
+  );
 };
