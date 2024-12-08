@@ -3,12 +3,12 @@ import { CheckBox } from "./CheckBox";
 import { css } from "styled-system/css";
 
 const meta = {
-  title: "Components/Base/Atoms/CheckBox",
+  title: "components/base/atoms/CheckBox",
   component: CheckBox,
   tags: ["autodocs"],
   decorators: [
     (Story): JSX.Element => (
-      <div className={css({ m: 10 })}>
+      <div className={css({ margin: 10 })}>
         <Story />
       </div>
     ),
