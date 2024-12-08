@@ -1,55 +1,30 @@
 import { css } from "styled-system/css";
 import { forwardRef } from "react";
+import { Field } from "@ark-ui/react";
 
-export type TextInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  size?: "sm" | "md" | "lg";
-  error?: string;
-};
+export type TextInputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  ({ placeholder, size = "md", onChange, error, ...props }, ref) => {
+  ({ className, placeholder, size = "md", onChange, ...props }, ref) => {
     const baseStyles = css({
+      width: "100%",
+      height: "100%",
       backgroundColor: "base.50",
       rounded: "0.5rem",
       paddingY: " 1.25rem",
       paddingX: "1rem",
     });
 
-    const sizeStyles = {
-      sm: css({
-        width: "30rem",
-        height: "3rem",
-      }),
-      md: css({
-        width: "24rem",
-        height: "3rem",
-      }),
-      lg: css({
-        width: "30rem",
-        height: "3rem",
-      }),
-    };
-
-    const errorStyles = css({
-      display: "flex",
-      justifyContent: "flex-start",
-      color: "error.1",
-      fontSize: "sm",
-      marginTop: "0.5rem",
-    });
-
     return (
-      <div>
-        <input
-          type="text"
+      <Field.Root className={className}>
+        <Field.Input
+          className={baseStyles}
           ref={ref}
           placeholder={placeholder}
           onChange={onChange}
-          className={`${baseStyles} ${sizeStyles[size as "sm" | "md" | "lg"]}`}
           {...props}
         />
-        {error && <p className={errorStyles}>{error}</p>}
-      </div>
+      </Field.Root>
     );
   },
 );
