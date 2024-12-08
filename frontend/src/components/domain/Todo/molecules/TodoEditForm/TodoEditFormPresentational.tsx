@@ -3,7 +3,15 @@ import { TextInput } from "@/components/base/atoms/TextInput";
 import { css } from "styled-system/css";
 import { TodoDeleteButton } from "@/components/domain/Todo/atoms/TodoDeleteButton";
 
-export const TodoEditFormPresentational = () => {
+export type TodoEditFormPresentationalProps = {
+  title: string;
+  isCompleted: boolean;
+};
+
+export const TodoEditFormPresentational = ({
+  title,
+  isCompleted,
+}: TodoEditFormPresentationalProps) => {
   const rootStyle = css({
     display: "flex",
     justifyContent: "center",
@@ -21,6 +29,10 @@ export const TodoEditFormPresentational = () => {
     borderRadius: "0.5rem",
   });
 
+  const innnerContentStyle = css({
+    display: "flex",
+    width: "100%",
+  });
   const inputStyle = css({
     marginLeft: "0.5rem",
     height: "100%",
@@ -30,9 +42,9 @@ export const TodoEditFormPresentational = () => {
   return (
     <form action="" className={rootStyle}>
       <div className={contentStyle}>
-        <div className={css({ display: "flex", width: "100%" })}>
-          <CheckBox />
-          <TextInput value="hoge" isOutline={false} className={inputStyle} />
+        <div className={innnerContentStyle}>
+          <CheckBox checked={isCompleted} />
+          <TextInput value={title} isOutline={false} className={inputStyle} />
         </div>
         <TodoDeleteButton />
       </div>
