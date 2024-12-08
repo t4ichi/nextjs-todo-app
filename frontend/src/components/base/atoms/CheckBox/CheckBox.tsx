@@ -14,9 +14,9 @@ const checkboxRoot = css({
 });
 
 const checkboxControl = css({
-  width: "2.5rem",
-  height: "2.5rem",
-  borderWidth: "4px",
+  width: "1.5rem",
+  height: "1.5rem",
+  borderWidth: "2px",
   borderColor: "primary.600",
   borderRadius: "50%",
   borderStyle: "solid",
