@@ -1,10 +1,19 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import type { Todo } from "@/gen/models";
 import { TodoListPresentational } from "./TodoListPresentational";
-import { getAllTodos } from "@/gen/endpoints/todo/todo";
+import { useGetAllTodos } from "@/gen/endpoints/todo/todo";
 
 export const TodoList = () => {
-  const query = useQuery({ queryKey: ["todos"], queryFn: () => getAllTodos() });
+  const query = useGetAllTodos({ query: { queryKey: ["todos"] } });
 
-  return <TodoListPresentational todos={query.data ?? []} />;
+  if (query.isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.error) {
+    return <div>{query}</div>;
+  }
+  console.log(query.data?.data);
+
+  return <TodoListPresentational todos={query.data?.data ?? []} />;
 };

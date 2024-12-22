@@ -7,13 +7,17 @@ export type TodoListPresentationalProps = {
 };
 
 export const TodoListPresentational = ({
-  todos,
+  todos = [], // デフォルト値を設定
 }: TodoListPresentationalProps) => {
   const ulStyle = css({
     display: "flex",
     flexDirection: "column",
     gap: "1rem",
   });
+
+  if (!Array.isArray(todos)) {
+    return null; // または適切なフォールバックUI
+  }
 
   return (
     <ul className={ulStyle}>
