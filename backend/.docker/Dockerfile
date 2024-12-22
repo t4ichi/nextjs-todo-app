@@ -2,7 +2,11 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-RUN apk add --no-cache netcat-openbsd
+# OpenSSLとその他の必要なパッケージをインストール
+RUN apk add --no-cache \
+    openssl \
+    netcat-openbsd \
+    postgresql-client
 
 RUN npm install -g pnpm
 
