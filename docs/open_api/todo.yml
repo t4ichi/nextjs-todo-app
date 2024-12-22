@@ -6,6 +6,8 @@ info:
 paths:
   /api/todos:
     get:
+      tags:
+        - todo
       summary: Todo一覧の取得
       description: 論理削除されていない全てのTodoアイテムを取得します
       operationId: getAllTodos
@@ -22,6 +24,8 @@ paths:
           description: サーバーエラー
 
     post:
+      tags:
+        - todo
       summary: 新規Todoの作成
       description: 新しいTodoアイテムを作成します
       operationId: createTodo
@@ -52,6 +56,8 @@ paths:
 
   /api/todos/{id}:
     put:
+      tags:
+        - todo
       summary: Todoの更新
       description: 指定されたIDのTodoを更新します
       operationId: editTodo
@@ -78,6 +84,9 @@ paths:
                   type: boolean
                   description: 完了状態
                   example: true
+              required:
+                - title
+                - completed
       responses:
         "200":
           description: Todoの更新に成功
@@ -92,6 +101,8 @@ paths:
 
   /api/todos/delete/{id}:
     put:
+      tags:
+        - todo
       summary: Todoの削除
       description: 指定されたIDのTodoを論理削除します
       operationId: deleteTodo
@@ -131,7 +142,6 @@ components:
           example: "買い物に行く"
         completed:
           type: boolean
-          default: false
           description: Todoの完了状態
           example: false
         createdAt:
@@ -156,3 +166,4 @@ components:
         - completed
         - createdAt
         - updatedAt
+        - deletedAt
