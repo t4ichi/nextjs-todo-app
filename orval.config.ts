@@ -4,15 +4,14 @@ module.exports = {
       target: "docs/open_api/todo.yml",
     },
     output: {
-      // target: "frontend/src/gen/endpoints/todo/todo.ts",
       target: "frontend/src/gen/endpoints/todo.ts",
       mode: "tags-split",
       client: "react-query",
       schemas: "frontend/src/gen/models",
       override: {
         mutator: {
-          path: "frontend/src/lib/customFetch.ts",
-          name: "customFetch",
+          path: "frontend/src/lib/axios.ts",
+          name: "apiClient",
         },
       },
     },
