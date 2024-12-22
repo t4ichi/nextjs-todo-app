@@ -1,9 +1,9 @@
-import type { Todo } from "@/app/api/fetchTodos";
 import { TodoEditForm } from "@/components/domain/Todo/molecules/TodoEditForm";
+import type { Todo } from "@/gen/models";
 import { css } from "styled-system/css";
 
 export type TodoListPresentationalProps = {
-  todos: Todo[] | undefined;
+  todos: Todo[];
 };
 
 export const TodoListPresentational = ({
@@ -15,11 +15,9 @@ export const TodoListPresentational = ({
     gap: "1rem",
   });
 
-  const todoItems = todos ?? [];
-
   return (
     <ul className={ulStyle}>
-      {todoItems.map((todo: Todo) => (
+      {todos.map((todo) => (
         <li key={todo.id}>
           <TodoEditForm title={todo.title} isCompleted={todo.completed} />
         </li>
