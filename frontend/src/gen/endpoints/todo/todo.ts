@@ -16,7 +16,7 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query";
 import type { CreateTodoBody, EditTodoBody, Todo } from "../../models";
-import { customFetch } from "../../../lib/customFetch";
+import { apiClient } from "../../../lib/axios";
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
@@ -27,7 +27,7 @@ type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
  * @summary Todo一覧の取得
  */
 export const getAllTodos = (signal?: AbortSignal) => {
-  return customFetch<Todo[]>({ url: `/api/todos`, method: "GET", signal });
+  return apiClient<Todo[]>({ url: `/api/todos`, method: "GET", signal });
 };
 
 export const getGetAllTodosQueryKey = () => {
@@ -97,7 +97,7 @@ export const createTodo = (
   createTodoBody: CreateTodoBody,
   signal?: AbortSignal,
 ) => {
-  return customFetch<Todo>({
+  return apiClient<Todo>({
     url: `/api/todos`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -167,7 +167,7 @@ export const useCreateTodo = <TError = void, TContext = unknown>(options?: {
  * @summary Todoの更新
  */
 export const editTodo = (id: number, editTodoBody: EditTodoBody) => {
-  return customFetch<Todo>({
+  return apiClient<Todo>({
     url: `/api/todos/${id}`,
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -236,7 +236,7 @@ export const useEditTodo = <TError = void, TContext = unknown>(options?: {
  * @summary Todoの削除
  */
 export const deleteTodo = (id: number) => {
-  return customFetch<Todo>({ url: `/api/todos/delete/${id}`, method: "PUT" });
+  return apiClient<Todo>({ url: `/api/todos/delete/${id}`, method: "PUT" });
 };
 
 export const getDeleteTodoMutationOptions = <
