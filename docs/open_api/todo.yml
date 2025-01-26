@@ -126,6 +126,33 @@ paths:
         "500":
           description: サーバーエラー
 
+  /api/todos/toggle/{id}:
+    patch:
+      tags:
+        - todo
+      summary: Todoの完了状態の切り替え
+      description: 指定されたIDのTodoの完了状態を切り替えます
+      operationId: toggleTodo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: TodoのID
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Todoの完了状態の切り替えに成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "404":
+          description: 指定されたTodoが見つかりません
+        "500":
+          description: サーバーエラー
+
 components:
   schemas:
     Todo:

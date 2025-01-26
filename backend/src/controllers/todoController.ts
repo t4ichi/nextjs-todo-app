@@ -1,5 +1,5 @@
-import type { Request,  Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import type { Request, Response } from "express";
 
 const prisma = new PrismaClient();
 
@@ -54,6 +54,30 @@ export const editTodo = async (req: Request, res: Response) => {
     res.json(updatedTodo);
   } catch (error) {
     res.status(500).json({ error: "Failed to update todo" });
+  }
+};
+
+export const toggleTodo = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const todo = await prisma.todo.findUnique({
+      where: { id: Number(id) },
+    });
+
+    if (!todo) {
+      return res.status(404).json({ error: "Todo not found" });
+    }
+
+    const updatedTodo = await prisma.todo.update({
+      where: { id: Number(id) },
+      data: {
+        completed: !todo.completed,
+      },
+    });
+
+    res.json(updatedTodo);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to toggle todo" });
   }
 };
 
