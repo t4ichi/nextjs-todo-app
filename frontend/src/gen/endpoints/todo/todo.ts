@@ -16,7 +16,7 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query";
 import type { CreateTodoBody, EditTodoBody, Todo } from "../../models";
-import { apiClient } from "../../../lib/axios";
+import { customFetch } from "../../../lib/customFetch";
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
@@ -27,7 +27,7 @@ type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
  * @summary Todo一覧の取得
  */
 export const getAllTodos = (signal?: AbortSignal) => {
-  return apiClient<Todo[]>({ url: `/api/todos`, method: "GET", signal });
+  return customFetch<Todo[]>({ url: `/api/todos`, method: "GET", signal });
 };
 
 export const getGetAllTodosQueryKey = () => {
@@ -97,7 +97,7 @@ export const createTodo = (
   createTodoBody: CreateTodoBody,
   signal?: AbortSignal,
 ) => {
-  return apiClient<Todo>({
+  return customFetch<Todo>({
     url: `/api/todos`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -167,7 +167,7 @@ export const useCreateTodo = <TError = void, TContext = unknown>(options?: {
  * @summary Todoの更新
  */
 export const editTodo = (id: number, editTodoBody: EditTodoBody) => {
-  return apiClient<Todo>({
+  return customFetch<Todo>({
     url: `/api/todos/${id}`,
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -236,7 +236,7 @@ export const useEditTodo = <TError = void, TContext = unknown>(options?: {
  * @summary Todoの削除
  */
 export const deleteTodo = (id: number) => {
-  return apiClient<Todo>({ url: `/api/todos/delete/${id}`, method: "PUT" });
+  return customFetch<Todo>({ url: `/api/todos/delete/${id}`, method: "PUT" });
 };
 
 export const getDeleteTodoMutationOptions = <
@@ -292,6 +292,70 @@ export const useDeleteTodo = <TError = void, TContext = unknown>(options?: {
   TContext
 > => {
   const mutationOptions = getDeleteTodoMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+/**
+ * 指定されたIDのTodoの完了状態を切り替えます
+ * @summary Todoの完了状態の切り替え
+ */
+export const toggleTodo = (id: number) => {
+  return customFetch<Todo>({ url: `/api/todos/toggle/${id}`, method: "PATCH" });
+};
+
+export const getToggleTodoMutationOptions = <
+  TError = void,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof toggleTodo>>,
+    TError,
+    { id: number },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof toggleTodo>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof toggleTodo>>,
+    { id: number }
+  > = (props) => {
+    const { id } = props ?? {};
+
+    return toggleTodo(id);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type ToggleTodoMutationResult = NonNullable<
+  Awaited<ReturnType<typeof toggleTodo>>
+>;
+
+export type ToggleTodoMutationError = void;
+
+/**
+ * @summary Todoの完了状態の切り替え
+ */
+export const useToggleTodo = <TError = void, TContext = unknown>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof toggleTodo>>,
+    TError,
+    { id: number },
+    TContext
+  >;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof toggleTodo>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  const mutationOptions = getToggleTodoMutationOptions(options);
 
   return useMutation(mutationOptions);
 };

@@ -67,3 +67,20 @@ export const deleteTodoResponse = zod.object({
   updatedAt: zod.string().datetime(),
   deletedAt: zod.string().datetime().nullable(),
 });
+
+/**
+ * 指定されたIDのTodoの完了状態を切り替えます
+ * @summary Todoの完了状態の切り替え
+ */
+export const toggleTodoParams = zod.object({
+  id: zod.number(),
+});
+
+export const toggleTodoResponse = zod.object({
+  id: zod.number(),
+  title: zod.string(),
+  completed: zod.boolean(),
+  createdAt: zod.string().datetime(),
+  updatedAt: zod.string().datetime(),
+  deletedAt: zod.string().datetime().nullable(),
+});

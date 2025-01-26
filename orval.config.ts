@@ -10,8 +10,8 @@ module.exports = {
       schemas: "frontend/src/gen/models",
       override: {
         mutator: {
-          path: "frontend/src/lib/axios.ts",
-          name: "apiClient",
+          path: "frontend/src/lib/customFetch.ts",
+          name: "customFetch",
         },
       },
     },

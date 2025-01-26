@@ -1,3 +1,4 @@
+"use server";
 type CustomFetchParams = {
   url: string;
   method: string;
