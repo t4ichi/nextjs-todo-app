@@ -1,16 +1,20 @@
 import { CheckBox } from "@/components/base/atoms/CheckBox/CheckBox";
 import { TextInput } from "@/components/base/atoms/TextInput";
-import { css } from "styled-system/css";
 import { TodoDeleteButton } from "@/components/domain/Todo/atoms/TodoDeleteButton";
+import { css } from "styled-system/css";
 
 export type TodoEditFormPresentationalProps = {
   title: string;
   isCompleted: boolean;
+  isCheckBoxDisabled: boolean;
+  handleCheckBoxChange: () => void;
 };
 
 export const TodoEditFormPresentational = ({
   title,
   isCompleted,
+  isCheckBoxDisabled,
+  handleCheckBoxChange,
 }: TodoEditFormPresentationalProps) => {
   const rootStyle = css({
     display: "flex",
@@ -29,7 +33,7 @@ export const TodoEditFormPresentational = ({
     borderRadius: "0.5rem",
   });
 
-  const innnerContentStyle = css({
+  const innerContentStyle = css({
     display: "flex",
     width: "100%",
   });
@@ -42,8 +46,15 @@ export const TodoEditFormPresentational = ({
   return (
     <form action="" className={rootStyle}>
       <div className={contentStyle}>
-        <div className={innnerContentStyle}>
-          <CheckBox checked={isCompleted} />
+        <div className={innerContentStyle}>
+          <CheckBox
+            checked={isCompleted}
+            disabled={isCheckBoxDisabled}
+            onCheckedChange={() => {
+              handleCheckBoxChange();
+              console.log("checked");
+            }}
+          />
           <TextInput value={title} isOutline={false} className={inputStyle} />
         </div>
         <TodoDeleteButton />

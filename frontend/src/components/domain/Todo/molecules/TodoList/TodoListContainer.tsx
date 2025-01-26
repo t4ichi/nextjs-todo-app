@@ -1,19 +1,32 @@
 "use client";
-import type { Todo } from "@/gen/models";
+
+import { getAllTodos, toggleTodo } from "@/gen/endpoints/todo/todo";
+import { Todo } from "@/gen/models";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { TodoListPresentational } from "./TodoListPresentational";
-import { useGetAllTodos } from "@/gen/endpoints/todo/todo";
 
 export const TodoList = () => {
-  const query = useGetAllTodos({ query: { queryKey: ["todos"] } });
+  const queryClient = useQueryClient();
 
-  if (query.isLoading) {
-    return <div>Loading...</div>;
-  }
+  const { data } = useQuery<Todo[]>({
+    queryKey: ["todos"],
+    queryFn: () => getAllTodos(),
+  });
 
-  if (query.error) {
-    return <div>{query}</div>;
-  }
-  console.log(query.data?.data);
+  const toggleMutation = useMutation({
+    mutationFn: toggleTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
 
-  return <TodoListPresentational todos={query.data?.data ?? []} />;
+  const todos = data?.map((todo) => ({
+    todo,
+    isCheckBoxDisabled: toggleMutation.isPending,
+    handleCheckBoxChange: () => {
+      toggleMutation.mutate(todo.id);
+    },
+  }));
+
+  return <TodoListPresentational todos={todos ?? []} />;
 };

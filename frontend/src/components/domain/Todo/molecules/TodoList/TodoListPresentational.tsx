@@ -3,11 +3,15 @@ import type { Todo } from "@/gen/models";
 import { css } from "styled-system/css";
 
 export type TodoListPresentationalProps = {
-  todos: Todo[];
+  todos: {
+    todo: Todo;
+    isCheckBoxDisabled: boolean;
+    handleCheckBoxChange: (id: number) => void;
+  }[];
 };
 
 export const TodoListPresentational = ({
-  todos = [], // デフォルト値を設定
+  todos,
 }: TodoListPresentationalProps) => {
   const ulStyle = css({
     display: "flex",
@@ -21,9 +25,16 @@ export const TodoListPresentational = ({
 
   return (
     <ul className={ulStyle}>
-      {todos.map((todo) => (
-        <li key={todo.id}>
-          <TodoEditForm title={todo.title} isCompleted={todo.completed} />
+      {todos.map((todoProps) => (
+        <li key={todoProps.todo.id}>
+          <TodoEditForm
+            title={todoProps.todo.title}
+            isCompleted={todoProps.todo.completed}
+            isCheckBoxDisabled={todoProps.isCheckBoxDisabled}
+            handleCheckBoxChange={() =>
+              todoProps.handleCheckBoxChange(todoProps.todo.id)
+            }
+          />
         </li>
       ))}
     </ul>
