@@ -1,14 +1,14 @@
 "use client";
-import { TodoCreateFormPresentational } from "./TodoCreateFormPresentational";
-import { useQueryClient } from "@tanstack/react-query";
 import { useCreateTodo } from "@/gen/endpoints/todo/todo";
+import { useQueryClient } from "@tanstack/react-query";
+import { TodoCreateFormPresentational } from "./TodoCreateFormPresentational";
 
 export const TodoCreateForm = () => {
   const queryClient = useQueryClient();
   const createTodoMutation = useCreateTodo({
     mutation: {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["/api/todos"] });
+        queryClient.invalidateQueries({ queryKey: ["todos"] });
       },
     },
   });
